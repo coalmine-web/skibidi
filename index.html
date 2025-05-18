@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>MR.KING | Hacker Có Đạo Đức</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00f0ff;
+      --secondary: #ff00aa;
+      --dark: #0a0a0a;
+      --darker: #050505;
+    }
+    html, body {
+      font-family: 'Share Tech Mono', monospace;
+      background-color: var(--dark);
+      color: #e0f2fe;
+      overflow-x: hidden;
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+    .cyber-font {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .matrix-font {
+      font-family: 'Major Mono Display', monospace;
+    }
+    .glow-text {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px var(--primary); }
+      to { text-shadow: 0 0 25px var(--secondary); }
+    }
+    .cyber-border {
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+    .cyber-card {
+      background: rgba(5, 5, 5, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 0.5rem;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+      transition: all 0.3s ease;
+    }
+    .cyber-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    }
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/l0MYC0LajbaPoEADu/giphy.gif') center/cover no-repeat;
+      opacity: 0.03;
+      z-index: -1;
+    }
+    .terminal {
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--primary);
+      border-radius: 0.5rem;
+      color: var(--primary);
+      font-family: 'Share Tech Mono', monospace;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .terminal::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      animation: scanline 8s linear infinite;
+    }
+    @keyframes scanline {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+    .command-line {
+      display: flex;
+      align-items: center;
+    }
+    .prompt {
+      color: var(--secondary);
+      margin-right: 0.5rem;
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1rem;
+      background-color: var(--primary);
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      from, to { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .hud-element {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--primary);
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+    }
+    .cyber-btn {
+      background: linear-gradient(90deg, rgba(0, 240, 255, 0.2), rgba(255, 0, 170, 0.2));
+      border: 1px solid var(--primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cyber-btn:hover {
+      background: linear-gradient(90deg, rgba(0, 240, 255, 0.4), rgba(255, 0, 170, 0.4));
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    .radar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      position: relative;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+      margin: 0 auto;
+    }
+    .radar::before {
+      content: "";
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: linear-gradient(45deg, transparent 50%, rgba(0, 240, 255, 0.3));
+      border-radius: 100% 0 0 0;
+      top: 0;
+      left: 0;
+      transform-origin: 100% 100%;
+      animation: radar-scan 4s linear infinite;
+    }
+    @keyframes radar-scan {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hexagon {
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+      background: rgba(0, 240, 255, 0.1);
+      width: 100px;
+      height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      margin: 0 auto;
+    }
+    .hexagon:hover {
+      background: rgba(0, 240, 255, 0.3);
+      transform: scale(1.1);
+    }
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--primary);
+      animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: var(--primary); }
+    }
+    .loading-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--dark), var(--primary), var(--dark));
+      background-size: 200% 100%;
+      animation: loading 2s linear infinite;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .cyber-font {
+        font-size: 1.8rem !important;
+      }
+      .terminal {
+        font-size: 0.9rem;
+      }
+      .hud-element {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+      }
+      .radar {
+        width: 120px;
+        height: 120px;
+      }
+      #musicControl {
+        width: 40px;
+        height: 40px;
+        bottom: 10px;
+        right: 10px;
+      }
+    }
+    @media (max-width: 480px) {
+      .cyber-card {
+        padding: 1rem;
+      }
+      .grid-cols-3, .grid-cols-2 {
+        grid-template-columns: 1fr !important;
+      }
+      .flex-col-mobile {
+        flex-direction: column;
+      }
+      .text-center-mobile {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body class="relative">
+  <!-- Nền Matrix -->
+  <div class="matrix-bg"></div>
+
+  <!-- Thanh trạng thái hệ thống (Mobile Friendly) -->
+  <div class="fixed top-0 left-0 right-0 bg-black bg-opacity-80 border-b border-cyan-500 z-50">
+    <div class="container mx-auto px-2 py-1 flex flex-wrap justify-between items-center">
+      <div class="flex flex-wrap items-center gap-1 text-xs">
+        <span class="text-cyan-400 cyber-font hidden sm:inline">STATUS:</span>
+        <span class="hud-element text-green-400"><i class="fas fa-shield-alt mr-1"></i><span class="hidden sm:inline">BẢO MẬT:</span> ACTIVE</span>
+        <span class="hud-element text-cyan-400"><i class="fas fa-wifi mr-1"></i><span class="hidden sm:inline">MẠNG:</span> SECURE</span>
+      </div>
+      <div class="text-xs text-gray-400">
+        <span id="datetime-mobile" class="sm:hidden"></span>
+        <span id="datetime" class="hidden sm:inline mr-2"></span>
+        <span id="system-load" class="hidden sm:inline">TẢI: <span id="load-percent">23%</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container mx-auto px-4 pt-20 sm:pt-24 pb-16">
+    <!-- Header Section (Optimized for Mobile) -->
+    <header class="flex flex-col items-center text-center mb-8">
+      <div class="relative mb-6">
+        <div class="hexagon border border-cyan-400">
+          <img src="https://i.imgur.com/cWydRFs.png" alt="Mr.KING Avatar" class="w-16 h-16 object-cover">
+        </div>
+        <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-black px-2 py-1 border border-cyan-400 rounded-full text-xs text-cyan-300">
+          <i class="fas fa-check-circle text-green-400 mr-1"></i>VERIFIED
+        </div>
+      </div>
+      <h1 class="text-4xl sm:text-5xl glow-text cyber-font mb-2">MR.KING</h1>
+      <p class="text-lg text-cyan-300 matrix-font mb-4">HACKER CÓ ĐẠO ĐỨC | CHUYÊN GIA BẢO MẬT</p>
+      <div class="flex flex-wrap justify-center gap-2">
+        <a href="#contact" class="cyber-btn text-sm"><i class="fas fa-envelope mr-1"></i>LIÊN HỆ</a>
+        <a href="#projects" class="cyber-btn text-sm"><i class="fas fa-project-diagram mr-1"></i>DỰ ÁN</a>
+      </div>
+    </header>
+
+    <!-- Main Grid (Responsive Layout) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Cột trái - Thông tin cá nhân -->
+      <div class="space-y-6">
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-id-card mr-2"></i>THÔNG TIN</h2>
+          <ul class="space-y-3 text-sm">
+            <li class="flex flex-col sm:flex-row">
+              <span class="text-cyan-400 sm:w-24 flex-shrink-0"><i class="fas fa-signature mr-2"></i>Tên:</span>
+              <span>Trọng Huy (Mr.KING)</span>
+            </li>
+            <li class="flex flex-col sm:flex-row">
+              <span class="text-cyan-400 sm:w-24 flex-shrink-0"><i class="fas fa-briefcase mr-2"></i>Vị trí:</span>
+              <span>Chuyên gia an ninh mạng</span>
+            </li>
+            <li class="flex flex-col sm:flex-row">
+              <span class="text-cyan-400 sm:w-24 flex-shrink-0"><i class="fas fa-certificate mr-2"></i>Chứng chỉ:</span>
+              <span>CEH, OSCP, CISSP</span>
+            </li>
+            <li class="flex flex-col sm:flex-row">
+              <span class="text-cyan-400 sm:w-24 flex-shrink-0"><i class="fas fa-envelope mr-2"></i>Email:</span>
+              <span class="break-all">tiktokmc.vn@gmail.com</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-shield-alt mr-2"></i>KỸ NĂNG</h2>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-cyan-300 mb-1">
+                <span>Phân tích mã độc</span>
+                <span>95%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-1.5">
+                <div class="bg-cyan-500 h-1.5 rounded-full" style="width: 95%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-cyan-300 mb-1">
+                <span>Kiểm thử xâm nhập</span>
+                <span>90%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-1.5">
+                <div class="bg-purple-500 h-1.5 rounded-full" style="width: 90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-cyan-300 mb-1">
+                <span>Điều tra số</span>
+                <span>88%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-1.5">
+                <div class="bg-green-500 h-1.5 rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-wifi mr-2"></i>KẾT NỐI</h2>
+          <div class="flex justify-around text-xl sm:text-2xl">
+            <a href="https://facebook.com/share/15F22y7ssB" target="_blank" class="text-blue-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+            <a href="https://t.me/MrKINGMC" target="_blank" class="text-blue-300 hover:text-white"><i class="fab fa-telegram"></i></a>
+            <a href="https://discord.gg/hackmr.king" target="_blank" class="text-purple-400 hover:text-white"><i class="fab fa-discord"></i></a>
+            <a href="#" class="text-red-400 hover:text-white"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột giữa - Terminal và hoạt động -->
+      <div class="space-y-6">
+        <div class="terminal">
+          <div class="mb-3 text-sm sm:text-base">
+            <div class="text-green-400 mb-1">// HỆ THỐNG ĐÃ KHỞI ĐỘNG</div>
+            <div class="text-cyan-300 mb-1">> Kết nối an toàn: ACTIVE</div>
+            <div class="text-cyan-300 mb-1">> Mã hóa đầu cuối: ENABLED</div>
+            <div class="text-green-400 mb-1">// SẴN SÀNG NHẬN LỆNH</div>
+          </div>
+          <div class="command-line">
+            <span class="prompt">root@mrking:~$</span>
+            <span id="command" class="flex-1"></span>
+            <span class="cursor"></span>
+          </div>
+        </div>
+
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-bolt mr-2"></i>HOẠT ĐỘNG</h2>
+          <div class="space-y-3">
+            <div class="flex items-start">
+              <div class="text-cyan-400 mr-2 mt-1"><i class="fas fa-terminal text-sm"></i></div>
+              <div>
+                <h3 class="text-cyan-200 text-sm sm:text-base">Phân tích mã độc mới</h3>
+                <p class="text-gray-400 text-xs">Phát hiện ransomware nhắm vào hệ thống ngân hàng</p>
+                <span class="text-xs text-gray-500">2 giờ trước</span>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="text-purple-400 mr-2 mt-1"><i class="fas fa-shield-virus text-sm"></i></div>
+              <div>
+                <h3 class="text-cyan-200 text-sm sm:text-base">Báo cáo lỗ hổng</h3>
+                <p class="text-gray-400 text-xs">Báo cáo lỗ hổng zero-day trong hệ thống ERP</p>
+                <span class="text-xs text-gray-500">1 ngày trước</span>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="text-green-400 mr-2 mt-1"><i class="fas fa-chalkboard-teacher text-sm"></i></div>
+              <div>
+                <h3 class="text-cyan-200 text-sm sm:text-base">Hội thảo bảo mật</h3>
+                <p class="text-gray-400 text-xs">Trình bày tại WhiteHat Conference 2025</p>
+                <span class="text-xs text-gray-500">3 ngày trước</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-tools mr-2"></i>CÔNG CỤ</h2>
+          <div class="grid grid-cols-3 sm:grid-cols-3 gap-2 text-center">
+            <div class="p-1 sm:p-2 border border-cyan-800 rounded hover:border-cyan-400 transition-colors">
+              <i class="fab fa-linux text-xl sm:text-2xl text-cyan-400 mb-1"></i>
+              <div class="text-xs">Kali</div>
+            </div>
+            <div class="p-1 sm:p-2 border border-cyan-800 rounded hover:border-cyan-400 transition-colors">
+              <i class="fas fa-network-wired text-xl sm:text-2xl text-purple-400 mb-1"></i>
+              <div class="text-xs">Wireshark</div>
+            </div>
+            <div class="p-1 sm:p-2 border border-cyan-800 rounded hover:border-cyan-400 transition-colors">
+              <i class="fas fa-code text-xl sm:text-2xl text-green-400 mb-1"></i>
+              <div class="text-xs">Metasploit</div>
+            </div>
+            <div class="p-1 sm:p-2 border border-cyan-800 rounded hover:border-cyan-400 transition-colors">
+              <i class="fas fa-lock text-xl sm:text-2xl text-yellow-400 mb-1"></i>
+              <div class="text-xs">Burp Suite</div>
+            </div>
+            <div class="p-1 sm:p-2 border border-cyan-800 rounded hover:border-cyan-400 transition-colors">
+              <i class="fas fa-bug text-xl sm:text-2xl text-red-400 mb-1"></i>
+              <div class="text-xs">IDA Pro</div>
+            </div>
+            <div class="p-1 sm:p-2 border border-cyan-800 rounded hover:border-cyan-400 transition-colors">
+              <i class="fas fa-terminal text-xl sm:text-2xl text-blue-400 mb-1"></i>
+              <div class="text-xs">John</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải - Dự án và hệ thống -->
+      <div class="space-y-6" id="projects">
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-project-diagram mr-2"></i>DỰ ÁN</h2>
+          <div class="space-y-3">
+            <div class="border-l-4 border-cyan-500 pl-2 py-1">
+              <h3 class="text-cyan-200 text-sm sm:text-base">Hệ thống giám sát tấn công</h3>
+              <p class="text-gray-400 text-xs">Phát hiện tấn công thời gian thực với AI</p>
+              <div class="mt-1 flex flex-wrap gap-1">
+                <span class="text-xs px-1.5 py-0.5 bg-cyan-900 text-cyan-300 rounded">Python</span>
+                <span class="text-xs px-1.5 py-0.5 bg-purple-900 text-purple-300 rounded">AI</span>
+              </div>
+            </div>
+            <div class="border-l-4 border-purple-500 pl-2 py-1">
+              <h3 class="text-cyan-200 text-sm sm:text-base">Tool kiểm thử tự động</h3>
+              <p class="text-gray-400 text-xs">Tự động hóa kiểm thử bảo mật</p>
+              <div class="mt-1 flex flex-wrap gap-1">
+                <span class="text-xs px-1.5 py-0.5 bg-blue-900 text-blue-300 rounded">Bash</span>
+                <span class="text-xs px-1.5 py-0.5 bg-yellow-900 text-yellow-300 rounded">JS</span>
+              </div>
+            </div>
+            <div class="border-l-4 border-green-500 pl-2 py-1">
+              <h3 class="text-cyan-200 text-sm sm:text-base">Phân tích mã độc AI</h3>
+              <p class="text-gray-400 text-xs">AI phát hiện và phân loại mã độc</p>
+              <div class="mt-1 flex flex-wrap gap-1">
+                <span class="text-xs px-1.5 py-0.5 bg-gray-700 text-gray-300 rounded">TensorFlow</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-chart-line mr-2"></i>THỐNG KÊ</h2>
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <div class="w-full sm:w-auto">
+              <div class="radar mb-2"></div>
+              <div class="text-xs text-cyan-300 text-center">THEO DÕI MỐI ĐE DỌA</div>
+            </div>
+            <div class="w-full space-y-2">
+              <div>
+                <div class="flex justify-between text-xs text-cyan-300 mb-1">
+                  <span>BẢO MẬT</span>
+                  <span>92%</span>
+                </div>
+                <div class="w-full bg-gray-800 rounded-full h-1.5">
+                  <div class="bg-cyan-500 h-1.5 rounded-full" style="width: 92%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs text-cyan-300 mb-1">
+                  <span>HIỆU SUẤT</span>
+                  <span>87%</span>
+                </div>
+                <div class="w-full bg-gray-800 rounded-full h-1.5">
+                  <div class="bg-green-500 h-1.5 rounded-full" style="width: 87%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cyber-card p-4 sm:p-6">
+          <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-quote-left mr-2"></i>TRIẾT LÝ</h2>
+          <div class="italic text-gray-300 text-sm mb-2">
+            "Sức mạnh thực sự đến từ khả năng bảo vệ, không phải phá hoại. Hacker thực thụ là người xây dựng hệ thống phòng thủ."
+          </div>
+          <div class="text-right text-xs text-cyan-400">
+            - Mr.KING -
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liên hệ -->
+    <div class="cyber-card mt-8 p-4 sm:p-6" id="contact">
+      <h2 class="text-lg sm:text-xl text-cyan-300 cyber-font mb-3 border-b border-cyan-900 pb-2"><i class="fas fa-envelope mr-2"></i>LIÊN HỆ</h2>
+      <p class="text-sm text-gray-300 mb-3">Liên hệ qua email hoặc điền form bên dưới:</p>
+      <div class="mb-4">
+        <a href="mailto:tiktokmc.vn@gmail.com" class="cyber-btn w-full text-center py-2">
+          <i class="fas fa-paper-plane mr-2"></i>tiktokmc.vn@gmail.com
+        </a>
+      </div>
+      <div class="grid gap-3">
+        <div>
+          <label class="block text-cyan-300 text-xs sm:text-sm mb-1">TÊN</label>
+          <input type="text" class="w-full bg-gray-900 border border-cyan-800 rounded px-3 py-2 text-sm focus:outline-none focus:border-cyan-500">
+        </div>
+        <div>
+          <label class="block text-cyan-300 text-xs sm:text-sm mb-1">EMAIL</label>
+          <input type="email" class="w-full bg-gray-900 border border-cyan-800 rounded px-3 py-2 text-sm focus:outline-none focus:border-cyan-500">
+        </div>
+        <div>
+          <label class="block text-cyan-300 text-xs sm:text-sm mb-1">NỘI DUNG</label>
+          <textarea class="w-full bg-gray-900 border border-cyan-800 rounded px-3 py-2 text-sm h-24 focus:outline-none focus:border-cyan-500"></textarea>
+        </div>
+        <div>
+          <button class="cyber-btn w-full py-2"><i class="fas fa-lock mr-2"></i>GỬI MÃ HÓA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-cyan-900 mt-8 py-4">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <div class="text-center sm:text-left mb-3 sm:mb-0">
+          <div class="text-cyan-400 cyber-font text-sm sm:text-base mb-1">MR.KING SECURITY</div>
+          <div class="text-xs text-gray-500">© 2025 Bản quyền thuộc về Trọng Huy</div>
+        </div>
+        <div class="flex space-x-3 text-xs">
+          <a href="#" class="text-cyan-400 hover:text-white"><i class="fas fa-lock mr-1"></i>Bảo mật</a>
+          <a href="#" class="text-cyan-400 hover:text-white"><i class="fas fa-file-alt mr-1"></i>Điều khoản</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Nhạc nền (Mobile Optimized) -->
+  <div class="fixed bottom-4 right-4 bg-black border-2 border-cyan-500 rounded-full w-12 h-12 flex items-center justify-center z-50 cursor-pointer" id="musicControl">
+    <i class="fas fa-music text-cyan-400 text-lg"></i>
+  </div>
+  <iframe id="youtubeMusic" width="0" height="0" src="" frameborder="0" allow="autoplay" allowfullscreen style="display: none;"></iframe>
+
+  <script>
+    // Cập nhật ngày giờ
+    function updateDateTime() {
+      const now = new Date();
+      const dateOptions = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      };
+      const timeOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      };
+      
+      // Phiên bản đầy đủ cho desktop
+      document.getElementById('datetime').textContent = now.toLocaleDateString('vi-VN', dateOptions);
+      
+      // Phiên bản rút gọn cho mobile
+      document.getElementById('datetime-mobile').textContent = now.toLocaleTimeString('vi-VN', timeOptions);
+      
+      // Tải hệ thống ngẫu nhiên
+      const load = Math.floor(Math.random() * 20) + 10;
+      document.getElementById('load-percent').textContent = `${load}%`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // Hiệu ứng gõ lệnh terminal
+    const commands = [
+      "scan --target 192.168.1.1 --port all",
+      "analyze --malware sample.exe --deep",
+      "decrypt --file secret.enc --algorithm aes-256",
+      "protect --system all --level maximum",
+      "help --commands security"
+    ];
+    let currentCommand = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    function typeCommand() {
+      const commandElement = document.getElementById('command');
+      const currentText = commands[currentCommand];
+      
+      if (isDeleting) {
+        commandElement.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        commandElement.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+      }
+      
+      if (!isDeleting && charIndex === currentText.length) {
+        isDeleting = true;
+        setTimeout(typeCommand, 2000);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        currentCommand = (currentCommand + 1) % commands.length;
+        setTimeout(typeCommand, 500);
+      } else {
+        setTimeout(typeCommand, isDeleting ? 50 : 100);
+      }
+    }
+    
+    // Bắt đầu hiệu ứng sau 2 giây
+    setTimeout(typeCommand, 2000);
+
+    // Điều khiển nhạc nền
+    const musicControl = document.getElementById('musicControl');
+    const youtubeMusic = document.getElementById('youtubeMusic');
+    let playing = false;
+    const url = 'https://www.youtube.com/embed/jRRAeHMBMcE?autoplay=1&mute=0&loop=1&playlist=jRRAeHMBMcE';
+    
+    musicControl.addEventListener('click', () => {
+      if (playing) {
+        youtubeMusic.src = "";
+        musicControl.innerHTML = '<i class="fas fa-music"></i>';
+      } else {
+        youtubeMusic.src = url;
+        musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+      }
+      playing = !playing;
+    });
+
+    // Tối ưu hiệu ứng cho mobile
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      // Giảm bớt hiệu ứng cho thiết bị di động
+      document.querySelector('.matrix-bg').style.animation = 'none';
+      document.querySelectorAll('.cyber-card').forEach(card => {
+        card.style.backdropFilter = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
