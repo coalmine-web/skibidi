@@ -1,155 +1,90 @@
-# Cập nhật file HTML với nhiều hiệu ứng gay cấn hơn:
-# - Âm thanh kịch tính hơn
-# - Mã code giả nhanh hơn
-# - Flash nền mạnh hơn
-# - Tự động toàn màn hình
-# - Thêm hiệu ứng nhiễu
-
-html_extreme = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>🚨 HỆ THỐNG BỊ TẤN CÔNG 🚨</title>
+  <title>💀 HỆ THỐNG BỊ HACK 💀</title>
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
+      background-color: black;
+      color: red;
       font-family: 'Courier New', monospace;
-      background: black;
-      color: lime;
-      font-size: 16px;
+      font-size: 20px;
       overflow: hidden;
+      animation: crazyBg 0.2s infinite alternate;
     }
 
-    body {
-      animation: flicker 0.15s infinite;
-    }
-
-    @keyframes flicker {
-      0%   { background-color: black; color: lime; }
-      50%  { background-color: red; color: white; }
-      100% { background-color: black; color: lime; }
+    @keyframes crazyBg {
+      0% { background-color: black; color: red; }
+      50% { background-color: red; color: black; }
+      100% { background-color: darkred; color: white; }
     }
 
     #terminal {
-      padding: 20px;
       white-space: pre-wrap;
-      height: 100vh;
-      overflow-y: auto;
-      background-color: rgba(0,0,0,0.75);
-      z-index: 1;
-      position: relative;
+      padding: 20px;
     }
 
-    #startBtn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 12px 24px;
-      background: darkred;
-      color: white;
-      border: none;
-      font-weight: bold;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 10;
-      animation: pulse 1s infinite;
+    .blink {
+      animation: blink 0.4s infinite;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <button id="startBtn">🚨 BẮT ĐẦU TẤN CÔNG 🚨</button>
-  <audio id="scarySound" loop>
-    <source src="https://www.soundjay.com/mechanical/sounds/mechanical-alarm-01.mp3" type="audio/mpeg">
-  </audio>
   <div id="terminal"></div>
+  <audio id="alarm" loop autoplay>
+    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     const terminal = document.getElementById("terminal");
-    const audio = document.getElementById("scarySound");
-    const btn = document.getElementById("startBtn");
-
-    const lines = [
-      "[HACKER] Kết nối tới hệ thống chính...",
-      "[HACKER] Xác thực bypass...",
-      "[ROOT ACCESS GRANTED]",
-      "[HACKER] Tải mã độc...",
-      "[!!!] KÍCH HOẠT VIRUS HỦY DIỆT",
-      "[!!!] MÃ HÓA TOÀN BỘ DỮ LIỆU",
-      "[!!!] HỆ THỐNG ĐANG SỤP ĐỔ",
-      "🔥🔥🔥 HỆ THỐNG ĐÃ BỊ XÂM NHẬP 🔥🔥🔥"
+    const messages = [
+      "Đang truy cập hệ thống...",
+      "Xác thực root...",
+      "Đã xâm nhập hệ thống...",
+      "XÓA DỮ LIỆU TRONG 3...",
+      "2...",
+      "1...",
+      "💀 HỆ THỐNG ĐÃ BỊ HỦY DIỆT 💀"
     ];
 
-    function getRandomCodeLine() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-      let str = "";
-      for (let i = 0; i < 80; i++) {
-        str += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return str;
-    }
+    let i = 0;
 
-    function spamTerminal() {
-      setInterval(() => {
-        terminal.innerHTML += getRandomCodeLine() + "\\n";
-        terminal.scrollTop = terminal.scrollHeight;
-      }, 30);
-    }
-
-    function typeLines() {
-      let i = 0;
-      function next() {
-        if (i < lines.length) {
-          terminal.innerHTML += lines[i] + "\\n";
-          i++;
-          setTimeout(next, 300);
-        } else {
-          spamTerminal();
-          startPopupAttack();
+    function typeLine(line, callback) {
+      let j = 0;
+      const interval = setInterval(() => {
+        terminal.innerHTML += line[j];
+        j++;
+        if (j >= line.length) {
+          clearInterval(interval);
+          terminal.innerHTML += "\n";
+          if (callback) callback();
         }
+      }, 50);
+    }
+
+    function typeAll() {
+      if (i < messages.length) {
+        typeLine(messages[i], () => {
+          i++;
+          setTimeout(typeAll, 500);
+        });
+      } else {
+        // Start popups
+        setInterval(() => {
+          alert("⚠️ HACK ĐANG TIẾN HÀNH ⚠️");
+        }, 4000);
       }
-      next();
     }
 
-    function startPopupAttack() {
-      setInterval(() => {
-        alert("🚨 DỮ LIỆU ĐANG BỊ ĐÁNH CẮP 🚨");
-      }, 2500);
-    }
-
-    function fullScreen() {
-      const el = document.documentElement;
-      if (el.requestFullscreen) {
-        el.requestFullscreen();
-      }
-    }
-
-    btn.onclick = () => {
-      btn.style.display = 'none';
-      audio.play();
-      fullScreen();
-      typeLines();
-    };
+    typeAll();
   </script>
 </body>
 </html>
-"""
-
-# Ghi đè file HTML
-html_extreme_path = "/mnt/data/hack-troll-ultimate.html"
-zip_extreme_path = "/mnt/data/hack-troll-ultimate.zip"
-
-with open(html_extreme_path, "w", encoding="utf-8") as f:
-    f.write(html_extreme)
-
-# Nén lại thành ZIP
-with ZipFile(zip_extreme_path, 'w') as zipf:
-    zipf.write(html_extreme_path, arcname="hack-troll-ultimate.html")
-
-zip_extreme_path
