@@ -1,105 +1,155 @@
-<!DOCTYPE html>
+# Cập nhật file HTML với nhiều hiệu ứng gay cấn hơn:
+# - Âm thanh kịch tính hơn
+# - Mã code giả nhanh hơn
+# - Flash nền mạnh hơn
+# - Tự động toàn màn hình
+# - Thêm hiệu ứng nhiễu
+
+html_extreme = """<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>System Error</title>
+  <title>🚨 HỆ THỐNG BỊ TẤN CÔNG 🚨</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
+      font-family: 'Courier New', monospace;
       background: black;
+      color: lime;
+      font-size: 16px;
       overflow: hidden;
     }
 
-    .error-window {
-      position: absolute;
-      width: 300px;
-      height: 180px;
-      background: #1c1c1c;
-      border: 2px solid red;
-      color: white;
-      font-family: monospace;
-      padding: 10px;
-      box-shadow: 0 0 30px red;
-      z-index: 10;
-      animation: shake 0.2s infinite;
+    body {
+      animation: flicker 0.15s infinite;
     }
 
-    @keyframes shake {
-      0% { transform: translate(0px, 0px); }
-      25% { transform: translate(2px, -2px); }
-      50% { transform: translate(-2px, 2px); }
-      75% { transform: translate(2px, 2px); }
-      100% { transform: translate(-2px, -2px); }
+    @keyframes flicker {
+      0%   { background-color: black; color: lime; }
+      50%  { background-color: red; color: white; }
+      100% { background-color: black; color: lime; }
     }
 
-    .hacker-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://i.imgur.com/MZ2QzQh.gif') center center / cover no-repeat;
-      opacity: 0.15;
+    #terminal {
+      padding: 20px;
+      white-space: pre-wrap;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: rgba(0,0,0,0.75);
       z-index: 1;
-      pointer-events: none;
+      position: relative;
     }
 
-    .hack-text {
-      position: fixed;
-      top: 40%;
-      width: 100%;
-      text-align: center;
-      font-size: 40px;
+    #startBtn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 12px 24px;
+      background: darkred;
+      color: white;
+      border: none;
       font-weight: bold;
-      color: red;
-      font-family: 'Courier New', monospace;
-      text-shadow: 0 0 10px red;
-      z-index: 1000;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
       animation: pulse 1s infinite;
     }
 
     @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.3; }
-      100% { opacity: 1; }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
-  <audio autoplay loop id="bgmusic" volume="1.0">
-    <source src="https://files.catbox.moe/3wqfmn.mp3" type="audio/mpeg">
+  <button id="startBtn">🚨 BẮT ĐẦU TẤN CÔNG 🚨</button>
+  <audio id="scarySound" loop>
+    <source src="https://www.soundjay.com/mechanical/sounds/mechanical-alarm-01.mp3" type="audio/mpeg">
   </audio>
-  <div class="hacker-bg"></div>
-  <div class="hack-text">MÁY BẠN ĐÃ BỊ HACK BỞI SKIBIDI TOILET</div>
+  <div id="terminal"></div>
 
   <script>
-    function createErrorWindow() {
-      const win = document.createElement('div');
-      win.className = 'error-window';
-      win.style.top = Math.random() * (window.innerHeight - 200) + 'px';
-      win.style.left = Math.random() * (window.innerWidth - 320) + 'px';
-      win.innerHTML = `
-        <b>System Error</b><br><br>
-        CODE: 0x000SKIBIDI<br>
-        Unusual activity detected<br>
-        Connection to host: LOST<br><br>
-        <button style='background:red; color:white; border:none; padding:4px;'>Force Close</button>
-      `;
-      document.body.appendChild(win);
+    const terminal = document.getElementById("terminal");
+    const audio = document.getElementById("scarySound");
+    const btn = document.getElementById("startBtn");
+
+    const lines = [
+      "[HACKER] Kết nối tới hệ thống chính...",
+      "[HACKER] Xác thực bypass...",
+      "[ROOT ACCESS GRANTED]",
+      "[HACKER] Tải mã độc...",
+      "[!!!] KÍCH HOẠT VIRUS HỦY DIỆT",
+      "[!!!] MÃ HÓA TOÀN BỘ DỮ LIỆU",
+      "[!!!] HỆ THỐNG ĐANG SỤP ĐỔ",
+      "🔥🔥🔥 HỆ THỐNG ĐÃ BỊ XÂM NHẬP 🔥🔥🔥"
+    ];
+
+    function getRandomCodeLine() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+      let str = "";
+      for (let i = 0; i < 80; i++) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return str;
     }
 
-    function loopErrorWindows() {
+    function spamTerminal() {
       setInterval(() => {
-        createErrorWindow();
-      }, 500);
+        terminal.innerHTML += getRandomCodeLine() + "\\n";
+        terminal.scrollTop = terminal.scrollHeight;
+      }, 30);
     }
 
-    window.onload = () => {
-      loopErrorWindows();
+    function typeLines() {
+      let i = 0;
+      function next() {
+        if (i < lines.length) {
+          terminal.innerHTML += lines[i] + "\\n";
+          i++;
+          setTimeout(next, 300);
+        } else {
+          spamTerminal();
+          startPopupAttack();
+        }
+      }
+      next();
+    }
+
+    function startPopupAttack() {
       setInterval(() => {
-        document.body.style.backgroundColor = Math.random() > 0.5 ? 'black' : '#330000';
-      }, 100);
+        alert("🚨 DỮ LIỆU ĐANG BỊ ĐÁNH CẮP 🚨");
+      }, 2500);
+    }
+
+    function fullScreen() {
+      const el = document.documentElement;
+      if (el.requestFullscreen) {
+        el.requestFullscreen();
+      }
+    }
+
+    btn.onclick = () => {
+      btn.style.display = 'none';
+      audio.play();
+      fullScreen();
+      typeLines();
     };
   </script>
 </body>
 </html>
+"""
+
+# Ghi đè file HTML
+html_extreme_path = "/mnt/data/hack-troll-ultimate.html"
+zip_extreme_path = "/mnt/data/hack-troll-ultimate.zip"
+
+with open(html_extreme_path, "w", encoding="utf-8") as f:
+    f.write(html_extreme)
+
+# Nén lại thành ZIP
+with ZipFile(zip_extreme_path, 'w') as zipf:
+    zipf.write(html_extreme_path, arcname="hack-troll-ultimate.html")
+
+zip_extreme_path
